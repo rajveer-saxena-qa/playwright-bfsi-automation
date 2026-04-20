@@ -1,7 +1,4 @@
-const {test, expect} = require ('@playwright/test');
-require('dotenv').config();
-const validUID = process.env.GURU99_USERNAME;
-const validPWD = process.env.GURU99_PASSWORD;
+import {test, expect} from '@playwright/test';
 //Create Smoke Test suite
 test.describe('Login Module-Smoke',()=>{
   //Create Test case for valid login credentials
