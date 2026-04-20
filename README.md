@@ -38,4 +38,3 @@ as I learn.
 
 ## Connect With Me
 LinkedIn: https://www.linkedin.com/in/rajveer-saxena-8119a7152
-GitHub: https://github.com/rajveer-saxena-aiqa
