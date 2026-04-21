@@ -1,0 +1,27 @@
+[
+  {
+    "customerId": "55237",
+    "accountNumber": "",
+    "timestamp": "2026-04-21T13:19:24.759Z"
+  },
+  {
+    "customerId": "50055",
+    "accountNumber": "",
+    "timestamp": "2026-04-21T13:19:32.263Z"
+  },
+  {
+    "customerId": "85346",
+    "accountNumber": "",
+    "timestamp": "2026-04-21T13:19:39.468Z"
+  },
+  {
+    "customerId": "24665",
+    "accountNumber": "",
+    "timestamp": "2026-04-21T13:19:47.682Z"
+  },
+  {
+    "customerId": "82113",
+    "accountNumber": "181791",
+    "timestamp": "2026-04-21T13:19:54.965Z"
+  }
+]
