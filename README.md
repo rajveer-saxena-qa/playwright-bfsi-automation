@@ -51,5 +51,10 @@ as I learn.
 | TC018 | New Account | Invalid Customer ID | Regression | Pass |
 | TC019 | New Account | Below minimum deposit | Regression | Pass |
 | TC020 | New Account | Special characters in Customer ID and Deposit | Regression | Pass |
+| TC023 | Withdrawal | Withdrawal with valid Account Number and Amount | Smoke | Pass |
+| TC024 | Withdrawal | Blank Special characters and Alphabets in Account Number and Amount | Regression | Pass |
+| TC025 | Fund Transfer | Fund Transfer with valid Payer and Payee Account | Smoke | Pass |
+| TC026 | Fund Transfer | Blank Special characters and Alphabets in Fund Transfer fields | Regression | Pass |
+| TC027 | Logout | Logout navigates to login page | Smoke | Pass |
 ## Connect With Me
 LinkedIn: https://www.linkedin.com/in/rajveer-saxena-8119a7152
