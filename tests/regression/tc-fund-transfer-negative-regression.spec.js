@@ -8,7 +8,12 @@ test.describe('Fund Transfer Module - Regression', () => {
 
     //Login and navigate to Fund Transfer page
     await login(page);
-    await page.getByRole('link', { name: 'Fund Transfer' }).click({ force: true });
+    //Validate Fund Transfer link visible in menu
+    await expect(page.getByRole('link', { name: 'Fund Transfer' })).toBeVisible();
+
+    //Navigate directly to bypass ad overlay
+    await page.goto('https://demo.guru99.com/V4/manager/FundTransInput.php');
+    await page.waitForSelector('input[name="payersaccount"]');
 
     //Test 1 - Blank fields - trigger blur to show inline errors
     await page.focus('input[name="payersaccount"]');

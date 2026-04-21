@@ -8,7 +8,12 @@ test.describe('Withdrawal Module - Regression', () => {
 
     //Login and navigate to Withdrawal page
     await login(page);
-    await page.getByRole('link', { name: 'Withdrawal' }).click({ force: true });
+   //Validate Withdrawal link visible in menu
+    await expect(page.getByRole('link', { name: 'Withdrawal' })).toBeVisible();
+
+    //Navigate directly to bypass ad overlay
+    await page.goto('https://demo.guru99.com/V4/manager/WithdrawalInput.php');
+    await page.waitForSelector('input[name="accountno"]');
 
    //Test 1 - Blank fields - trigger blur to show inline errors
     await page.focus('input[name="accountno"]');

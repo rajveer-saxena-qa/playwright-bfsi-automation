@@ -19,7 +19,13 @@ test.describe('Fund Transfer Module - Smoke', () => {
 
     //Login and navigate to Fund Transfer page
     await login(page);
-    await page.getByRole('link', { name: 'Fund Transfer' }).click({ force: true });
+    //Validate Fund Transfer link is visible in menu
+    await expect(page.getByRole('link', { name: 'Fund Transfer' })).toBeVisible();
+
+    //Navigate directly to bypass ad overlay
+    await page.goto('https://demo.guru99.com/V4/manager/FundTransInput.php');
+    //Wait for form field to be ready
+    await page.waitForSelector('input[name="payersaccount"]');
 
     //Fill Payers Account Number
     await page.fill('input[name="payersaccount"]', payersAccount);

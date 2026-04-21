@@ -34,6 +34,8 @@ test.describe('New Customer Module - Smoke', () => {
   validCustomers.forEach(({ scenario, name, gender, dob, address, city, state, pin, mobile, email, password }) => {
     test(`${scenario}`, async ({ page }) => {
       test.setTimeout(120000);
+       //Small delay to allow server to settle between tests
+      await page.waitForTimeout(2000);
      //Login and navigate to New Customer page
       await login(page);
       await page.click('text=New Customer');

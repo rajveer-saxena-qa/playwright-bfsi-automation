@@ -10,4 +10,5 @@ export async function login(page, uid = process.env.GURU99_USERNAME, pwd = proce
   await page.fill('input[name="password"]', pwd);
   //Click Login Button
   await page.click('input[name="btnLogin"]');
+  //await page.waitForLoadState('domcontentloaded');
 }
