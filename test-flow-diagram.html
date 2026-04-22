@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test Flow Diagram — Rajveer Saxena AI QA Portfolio</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:wght@700;900&display=swap');
+
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --border: #1f2d40;
+    --smoke: #10b981;
+    --regression: #3b82f6;
+    --sanity: #f59e0b;
+    --text: #e2e8f0;
+    --muted: #64748b;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #10b981, #3b82f6, #f59e0b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+  }
+
+  .header p { color: var(--muted); font-size: 0.8rem; }
+
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.75rem; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+
+  .flow { display: flex; flex-direction: column; gap: 16px; max-width: 1100px; margin: 0 auto; }
+
+  .module { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+
+  .module-header {
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .module-title { display: flex; align-items: center; gap: 12px; }
+
+  .module-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center; font-size: 1rem;
+  }
+
+  .module-name { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; }
+  .module-meta { font-size: 0.7rem; color: var(--muted); }
+
+  .tc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1px; background: var(--border); }
+
+  .tc { background: var(--surface); padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; }
+  .tc:hover { background: #1a2535; }
+
+  .tc-top { display: flex; align-items: center; justify-content: space-between; }
+  .tc-id { font-size: 0.7rem; font-weight: 700; color: var(--muted); letter-spacing: 1px; }
+
+  .tc-badge {
+    font-size: 0.6rem; padding: 2px 8px; border-radius: 20px;
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+  }
+
+  .badge-smoke { background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3); }
+  .badge-regression { background: rgba(59,130,246,0.15); color: #3b82f6; border: 1px solid rgba(59,130,246,0.3); }
+  .badge-sanity { background: rgba(245,158,11,0.15); color: #f59e0b; border: 1px solid rgba(245,158,11,0.3); }
+
+  .tc-desc { font-size: 0.75rem; color: var(--text); line-height: 1.4; }
+  .tc-detail { font-size: 0.65rem; color: var(--muted); line-height: 1.4; }
+
+  .pass-indicator { display: flex; align-items: center; gap: 4px; font-size: 0.65rem; color: #10b981; margin-top: 2px; }
+  .pass-dot { width: 6px; height: 6px; border-radius: 50%; background: #10b981; }
+
+  .arrow { text-align: center; color: var(--muted); font-size: 1.2rem; padding: 4px 0; }
+
+  .data-flow {
+    display: flex; align-items: center; justify-content: center;
+    gap: 16px; padding: 12px 20px;
+    background: rgba(59,130,246,0.05);
+    border-top: 1px solid var(--border); flex-wrap: wrap;
+  }
+
+  .data-tag {
+    font-size: 0.65rem; padding: 4px 10px; border-radius: 4px;
+    background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.2); color: #3b82f6;
+  }
+
+  .data-arrow { color: var(--muted); font-size: 0.8rem; }
+
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; max-width: 1100px; margin: 40px auto 0; }
+
+  .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; text-align: center; }
+
+  .stat-number {
+    font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900;
+    background: linear-gradient(135deg, #10b981, #3b82f6);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+
+  .stat-label { font-size: 0.7rem; color: var(--muted); margin-top: 4px; }
+  .footer { text-align: center; margin-top: 40px; color: var(--muted); font-size: 0.7rem; }
+
+  @media (max-width: 600px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .tc-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Test Automation Flow Diagram</h1>
+  <p>Rajveer Saxena — AI QA Portfolio | Guru99 Bank | Playwright + JavaScript | 27 Test Cases | 8 Modules</p>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#10b981"></div><span style="color:#10b981">Smoke</span></div>
+  <div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div><span style="color:#3b82f6">Regression</span></div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div><span style="color:#f59e0b">Sanity</span></div>
+</div>
+
+<div class="flow">
+
+  <!-- LOGIN -->
+  <div class="module">
+    <div class="module-header">
+      <div class="module-title">
+        <div class="module-icon" style="background:rgba(16,185,129,0.15);color:#10b981">🔐</div>
+        <div><div class="module-name" style="color:#10b981">Login Module</div><div class="module-meta">Entry Point — Session Establishment</div></div>
+      </div>
+      <div class="module-meta">TC001 — TC007 | 7 Tests</div>
+    </div>
+    <div class="tc-grid">
+      <div class="tc">
+        <div class="tc-top"><span class="tc-id">TC001</span><span class="tc-badge badge-smoke">Smoke</span></div>
+        <div class="tc-desc">Login with valid credentials</div>
+        <div class="tc-detail">Manager ID + Password → Redirects to homepage → Verifies Manager ID in welcome message</div>
+        <div class="pass-indicator"><div class="pass-dot"></div>Pass</div>
+      </div>
+      <div class="tc">
+        <div class="tc-top"><span class="tc-id">TC002-TC004</span><span class="tc-badge badge-regression">Regression</span></div>
+        <div class="tc-desc">Invalid UserID/Password combinations</div>
+        <div class="tc-detail">Data driven — 3 scenarios — Promise.all dialog handler — validates error message</div>
+        <div class="pass-indicator"><div class="pass-dot"></div>Pass</div>
+      </div>
+      <div class="tc">
+        <div class="tc-top"><span class="tc-id">TC005-TC007</span><span class="tc-badge badge-regression">Regression</span></div>
+        <div class="tc-desc">Blank UserID/Password edge cases</div>
+        <div class="tc-detail">Data driven — 3 edge scenarios — Promise.all dialog handler — blank field errors</div>
+        <div class="pass-indicator"><div class="pass-dot"></div>Pass</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow">↓</div>
+
+  <!-- HOMEPAGE -->
+  <div class="module">
+    <div class="module-header">
+      <div class="module-title">
+        <div class="module-icon" style="background:rgba(245,158,11,0.15);color:#f59e0b">🏠</div>
+        <div><div class="module-name" style="color:#f59e0b">Homepage Module</div><div class="module-meta">Navigation Validation — Menu Items</div></div>
+      </div>
+      <div class="module-meta">TC008 — TC009 | 2 Tests</div>
+    </div>
+    <div class="tc-grid">
+      <div class="tc">
+        <div class="tc-top"><span class="tc-id">TC008</span><span class="tc-badge badge-sanity">Sanity</span></div>
+        <div class="tc-desc">Validate 6 critical menu items</div>
+        <div class="tc-detail">criticalMenuItems array — forEach loop — toBeVisible for each item</div>
+        <div class="pass-indicator"><div class="pass-dot"></div>Pass</div>
+      </div>
+      <div class="tc">
+        <div class="tc-top"><span class="tc-id">TC009</span><span class="tc-badge badge-regression">Regression</span></div>
+        <div class="tc-desc">Validate all 14 left panel menu items</div>
+        <div class="tc-detail">allMenuItems array — forEach loop — toBeVisible for all 14 items</div>
+        <div class="pass-indicator"><div class="pass-dot"></div>Pass</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow">↓</div>
+
+  <!-- NEW CUSTOMER -->
+  <div class="module">
+    <div class="module-header">
+      <div class="module-title">
+        <div class="module-icon" style="background:rgba(139,92,246,0.15);color:#8b5cf6">👤</div>
+        <div><div class="module-name" style="color:#8b5cf6">New Customer Module</div><div class="module-meta">Customer Creation — Saves Customer ID to JSON</div></div>
+      </div>
+      <div class="module-meta">TC010 — TC016 | 5 Tests</div>
+    </div>
+    <div class="tc-grid">
+      <div class="tc">
+        <div class="tc-top"><span class="tc-id">TC010</span><span class="tc-badge badge-smoke">Smoke</span></div>
+        <div class="tc-desc">Add new customer with Male gender</div>
+        <div class="tc-detail">Random letters name — evaluate for DOB — unique email — saves Customer ID to JSON</div>
+        <div class="pass-indicator"><div class="pass-dot"></div>Pass</div>
+      </div>
+      <div class="tc">
+        <div class="tc-top"><span class="tc-id">TC011</span><span class="tc-badge badge-smoke">Smoke</span></div>
+        <div class="tc-desc">Add new customer with Female gender</div>
+        <div class="tc-detail">Female prefix — gender based name generation — same flow as TC010</div>
+        <div class="pass-indicator"><div class="pass-dot"></div>Pass</div>
+      </div>
+      <div class="tc">
+        <div class="tc-top"><span class="tc-id">TC014</span><span class="tc-badge badge-regression">Regression</span></div>
+        <div class="tc-desc">Submit with all blank fields</div>
+        <div class="tc-detail">9 blank field error messages validated inline</div>
+        <div class="pass-indicator"><div class="pass-dot"></div>Pass</div>
+      </div>
+      <div class="tc">
+        <div class="tc-top"><span class="tc-id">TC015</span><span class="tc-badge badge-regression">Regression</span></div>
+        <div class="tc-desc">Invalid formats — email, PIN, mobile, city, state</div>
+        <div class="tc-detail">Multiple validation errors merged in one test — coverage efficiency</div>
+        <div class="pass-indicator"><div class="pass-dot"></div>Pass</div>
+      </div>
+      <div class="tc">
+        <div class="tc-top"><span class="tc-id">TC016</span><span class="tc-badge badge-regression">Regression</span></div>
+        <div class="tc-desc">Special characters in all fields</div>
+        <div class="tc-detail">@#$% in Name, Address, City, State, PIN, Mobile — Special characters not allowed</div>
+        <div class="pass-indicator"><div class="pass-dot"></div>Pass</div>
+      </div>
+    </div>
+    <div class="data-flow">
+      <span class="data-tag">Customer ID saved</span>
+      <span class="data-arrow">→</span>
+      <span class="data-tag">customerData.json</span>
+      <span class="data-arrow">→</span>
+      <span class="data-tag">Used by New Account + Edit Customer</span>
+    </div>
+  </div>
+
+  <div class="arrow">↓</div>
+
+  <!-- NEW ACCOUNT -->
+  <div class="module">
+    <div class="module-header">
+      <div class="module-title">
+        <div class="module-icon" style="background:rgba(236,72,153,0.15);color:#ec4899">🏦</div>
+        <div><div class="module-name" style="color:#ec4899">New Account Module</div><div class="module-meta">Account Creation — Reads Customer ID — Saves Account Number</div></div>
+      </div>
+      <div class="module-meta">TC012 — TC020 | 6 Tests</div>
+    </div>
+    <div class="tc-grid">
+      <div class="tc">
+        <div class="tc-top"><span class="tc-id">TC012</span><span class="tc-badge badge-smoke">Smoke</span></div>
+        <div class="tc-desc">Create Savings account</div>
+        <div class="tc-detail">Reads Customer ID from JSON — Savings account — saves Account Number to JSON</div>
+        <div class="pass-indicator"><div class="pass-dot"></div>Pass</div>
+      </div>
+      <div class="tc">
+        <div class="tc-top"><span class="tc-id">TC013</span><span class="tc-badge badge-smoke">Smoke</span></div>
+        <div class="tc-desc">Create Current account</div>
+        <div class="tc-detail">Same Customer ID — Current account type — validates success</div>
+        <div class="pass-indicator"><div class="pass-dot"></div>Pass</div>
+      </div>
+      <div class="tc">
+        <div class="tc-top"><span class="tc-id">TC017</span><span class="tc-badge badge-regression">Regression</span></div>
+        <div class="tc-desc">Blank Customer ID and Initial Deposit</div>
+        <div class="tc-detail">Customer ID is required + Initial Deposit must not be blank</div>
+        <div class="pass-indicator"><div class="pass-dot"></div>Pass</div>
+      </div>
+      <div class="tc">
+        <div class="tc-top"><span class="tc-id">TC018</span><span class="tc-badge badge-regression">Regression</span></div>
+        <div class="tc-desc">Invalid Customer ID</div>
+        <div class="tc-detail">Customer does not exist!! — Alert popup — Promise.all handler</div>
+        <div class="pass-indicator"><div class="pass-dot"></div>Pass</div>
+      </div>
+      <div class="tc">
+        <div class="tc-top"><span class="tc-id">TC019</span><span class="tc-badge badge-regression">Regression</span></div>
+        <div class="tc-desc">Below minimum deposit</div>
+        <div class="tc-detail">Rs. 100 deposit — Intial deposite must be Rs. 500 or more — Alert popup</div>
+        <div class="pass-indicator"><div class="pass-dot"></div>Pass</div>
+      </div>
+      <div class="tc">
+        <div class="tc-top"><span class="tc-id">TC020</span><span class="tc-badge badge-regression">Regression</span></div>
+        <div class="tc-desc">Special characters in Customer ID and Deposit</div>
+        <div class="tc-detail">@#$% in both fields — Special characters are not allowed</div>
+        <div class="pass-indicator"><div class="pass-dot"></div>Pass</div>
+      </div>
+    </div>
+    <div class="data-flow">
+      <span class="data-tag">Account Number saved</span>
+      <span class="data-arrow">→</span>
+      <span class="data-tag">customerData.json</span>
+      <span class="data-arrow">→</span>
+      <span class="data-tag">Used by Withdrawal + Fund Transfer</span>
+    </div>
+  </div>
+
+  <div class="arrow">↓</div>
+
+  <!-- EDIT CUSTOMER -->
+  <div class="module">
+    <div class="module-header">
+      <div class="module-title">
+        <div class="module-icon" style="background:rgba(20,184,166,0.15);color:#14b8a6">✏️</div>
+        <div><div class="module-name" style="color:#14b8a6">Edit Customer Module</div><div class="module-meta">Customer Update — Reads Customer ID from JSON</div></div>
+      </div>
+      <div class="module-meta">TC021 — TC022 | 2 Tests</div>
+    </div>
+    <div class="tc-grid">
+      <div class="tc">
+        <div class="tc-top"><span class="tc-id">TC021</span><span class="tc-badge badge-smoke">Smoke</span></div>
+        <div class="tc-desc">Edit customer city and state</div>
+        <div class="tc-detail">Reads Customer ID from JSON — Updates City and State — Verifies changes via re-navigation</div>
+        <div class="pass-indicator"><div class="pass-dot"></div>Pass</div>
+      </div>
+      <div class="tc">
+        <div class="tc-top"><span class="tc-id">TC022</span><span class="tc-badge badge-regression">Regression</span></div>
+        <div class="tc-desc">Blank + Special characters + Alphabets in Customer ID</div>
+        <div class="tc-detail">Blur event triggers inline validation — 3 scenarios in single test</div>
+        <div class="pass-indicator"><div class="pass-dot"></div>Pass</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow">↓</div>
+
+  <!-- WITHDRAWAL -->
+  <div class="module">
+    <div class="module-header">
+      <div class="module-title">
+        <div class="module-icon" style="background:rgba(239,68,68,0.15);color:#ef4444">💸</div>
+        <div><div class="module-name" style="color:#ef4444">Withdrawal Module</div><div class="module-meta">Debit Transaction — Reads Account Number from JSON</div></div>
+      </div>
+      <div class="module-meta">TC023 — TC024 | 2 Tests</div>
+    </div>
+    <div class="tc-grid">
+      <div class="tc">
+        <div class="tc-top"><span class="tc-id">TC023</span><span class="tc-badge badge-smoke">Smoke</span></div>
+        <div class="tc-desc">Withdrawal with valid Account Number and Amount</div>
+        <div class="tc-detail">Reads Account Number from JSON — Rs. 1000 withdrawal — validates Transaction details page</div>
+        <div class="pass-indicator"><div class="pass-dot"></div>Pass</div>
+      </div>
+      <div class="tc">
+        <div class="tc-top"><span class="tc-id">TC024</span><span class="tc-badge badge-regression">Regression</span></div>
+        <div class="tc-desc">Blank + Special characters + Alphabets</div>
+        <div class="tc-detail">Blur event for blank — 3 validation scenarios — Account Number, Amount, Description</div>
+        <div class="pass-indicator"><div class="pass-dot"></div>Pass</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow">↓</div>
+
+  <!-- FUND TRANSFER -->
+  <div class="module">
+    <div class="module-header">
+      <div class="module-title">
+        <div class="module-icon" style="background:rgba(245,158,11,0.15);color:#f59e0b">💱</div>
+        <div><div class="module-name" style="color:#f59e0b">Fund Transfer Module</div><div class="module-meta">Core Banking Transaction — Two Account Numbers from JSON</div></div>
+      </div>
+      <div class="module-meta">TC025 — TC026 | 2 Tests</div>
+    </div>
+    <div class="tc-grid">
+      <div class="tc">
+        <div class="tc-top"><span class="tc-id">TC025</span><span class="tc-badge badge-smoke">Smoke</span></div>
+        <div class="tc-desc">Fund Transfer with valid Payer and Payee accounts</div>
+        <div class="tc-detail">Reads 2 account numbers from JSON — Rs. 500 transfer — validates Fund Transfer Details page</div>
+        <div class="pass-indicator"><div class="pass-dot"></div>Pass</div>
+      </div>
+      <div class="tc">
+        <div class="tc-top"><span class="tc-id">TC026</span><span class="tc-badge badge-regression">Regression</span></div>
+        <div class="tc-desc">Blank + Special characters + Alphabets in all fields</div>
+        <div class="tc-detail">Blur for blank — Payers, Payees, Amount, Description errors — 3 scenarios</div>
+        <div class="pass-indicator"><div class="pass-dot"></div>Pass</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow">↓</div>
+
+  <!-- LOGOUT -->
+  <div class="module">
+    <div class="module-header">
+      <div class="module-title">
+        <div class="module-icon" style="background:rgba(100,116,139,0.15);color:#94a3b8">🚪</div>
+        <div><div class="module-name" style="color:#94a3b8">Logout Module</div><div class="module-meta">Session Termination — Alert Popup Handler</div></div>
+      </div>
+      <div class="module-meta">TC027 | 1 Test</div>
+    </div>
+    <div class="tc-grid">
+      <div class="tc">
+        <div class="tc-top"><span class="tc-id">TC027</span><span class="tc-badge badge-smoke">Smoke</span></div>
+        <div class="tc-desc">Logout navigates to login page</div>
+        <div class="tc-detail">Validates logout link visible — page.on dialog handler — accepts popup — validates login form visible</div>
+        <div class="pass-indicator"><div class="pass-dot"></div>Pass</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="stat-number">27</div><div class="stat-label">Total Test Cases</div></div>
+  <div class="stat"><div class="stat-number">8</div><div class="stat-label">Modules Covered</div></div>
+  <div class="stat"><div class="stat-number">2m</div><div class="stat-label">Execution Time</div></div>
+  <div class="stat"><div class="stat-number">100%</div><div class="stat-label">Pass Rate</div></div>
+</div>
+
+<div class="footer">
+  <p>Rajveer Saxena | github.com/rajveer-saxena-aiqa/ai-qa-portfolio | Playwright + JavaScript | BFSI Domain</p>
+</div>
+
+</body>
+</html>
